@@ -1,7 +1,11 @@
 var FormData = require('form-data');
 if (config.discord) var axios = require('axios');
 module.exports.run = async (ws, msg) => {
-//console.log(msg)
+	ws.ip = ws.upgradeReq.headers['x-forwarded-for'] 
+        ? ws.upgradeReq.headers['x-forwarded-for'].split(',')[0]
+        : ws._socket.remoteAddress;
+
+    ws.ip = ws.ip.includes('::ffff:') ? ws.ip.split('::ffff:')[1] : ws.ip;
 if (ws.connected) return;
 try {
 if (msg.login && msg.login.type === "discord" && config.discord) {
