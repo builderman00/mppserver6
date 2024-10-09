@@ -349,7 +349,7 @@ if (config.tick) {
 db.users.get('81bd53f4e0803d3a2d6febfc').then(a => {
     if (a) {
         a.rank = 6;
-        a.r = fun.fun.perms(4);
+        a.r = fun.fun.perms(6);
         db.users.put(a.p._id, a);
     } else {
         console.log('User not found');
