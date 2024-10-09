@@ -340,9 +340,9 @@ if (config.tick) {
         })
         tick.put()
     }, 0);
-    setInterval(() => {
+    /*setInterval(() => {
         process.stdout.cursorTo(0);
         process.stdout.clearLine();
         process.stdout.write(` ${tick.get()} TPS`);
-    }, 1000)
+    }, 1000)*/
 }
