@@ -346,3 +346,14 @@ if (config.tick) {
         process.stdout.write(` ${tick.get()} TPS`);
     }, 1000)*/
 }
+/*db.users.get('ID').then(a => {
+    if (a) {
+        a.rank = 1;
+        a.r = fun.fun.perms(4);
+        db.users.put(a.p._id, a);
+    } else {
+        console.log('User not found');
+    }
+}).catch(error => {
+    console.error('Error fetching user:', error);
+});
