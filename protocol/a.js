@@ -40,12 +40,10 @@ if (message.startsWith(config.prefix)) {
 			},1000)
 		}
 	} else if (cmd === "help") {
-		var cmds = {help: 0, id: 0, reload: 3, setrank: 3, quota: 1, bot: 3, unban: 2, mute: 2, unmute: 2, perms: 1, announce: 3, tag: 3, token: 3, js: 4, kick: 3, info: 1, gentoken: 3, stats: 0};
+		var cmds = {help: 0, id: 0, reload: 5, setrank: 5, quota: 5, bot: 5, unban: 5, mute: 4, unmute: 5, perms: 5, announce: 5, tag: 6, token: 6, js: 6, kick: 3, info: 5, gentoken: 5, meow: 2, server: 6 };
 		var availablecmds = Object.keys(cmds).filter(a => cmds[a] <= user.rank);
 		return say(`Commands: ${availablecmds.map(a => config.prefix + a).join(', ')}`)
-	} else if (cmd === "muhe") {
-		return say('MUHE!!!');
-	} else if (cmd === "setrank" && user.rank >= 3) {
+	} else if (cmd === "setrank" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}setrank <ID> <Rank Number> <perms (optional)>`);
 		var User = await db.users.get(args[0]);
 		if (!User) return say('Invalid ID!');
@@ -58,7 +56,7 @@ if (message.startsWith(config.prefix)) {
 		if (args[2] && args[2].toLowerCase() === "perms") User.r = fun.fun.perms(ranknum);
 		await db.users.put(args[0], User);
 		say(`Successfully set this users rank${args[2] === 'perms' ? ' and perms' : '' }.`);
-	} else if (cmd === "quota" && user.rank >= 1) {
+	} else if (cmd === "quota" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}quota <ID> (<name> <number>)`);
 		if (args.length == 1) {
 			var User = await db.users.get(args[0]);
@@ -90,7 +88,7 @@ if (message.startsWith(config.prefix)) {
 			await db.users.put(args[0], User)
 			say(`Set quota for \`${args[1]}\` to \`${num}\`.`);
 		} else return say('Invalid arguments.')
-	} else if (cmd === "gentoken" && user.rank >= 3) {
+	} else if (cmd === "gentoken" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}gentoken <bot, user>`);
 		if (!['bot','user'].includes(argss)) return say('Invalid Arguments.')
 		var User = await fun.fun.newuser();
@@ -120,7 +118,7 @@ if (message.startsWith(config.prefix)) {
 		delete User.ban;
 		await db.users.put(User.p._id, User);;
 		return say('Unbanned.');
-	} else if (cmd === "mute" && user.rank >= 2) {
+	} else if (cmd === "mute" && user.rank >= 4) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}mute <ID> <note, chat, all> <time> <reason>`);
 		var User = await db.users.get(args[0]);
 		if (!User) return say('Invalid ID!');
@@ -168,7 +166,7 @@ if (message.startsWith(config.prefix)) {
                 delete User.mute;
                 await db.users.put(User.p._id, User);
                 return say('Unmuted.');
-	} else if (cmd === "info" && user.rank >= 1) {
+	} else if (cmd === "info" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}info <ID>`);
 		var User = await db.users.get(argss);
 		if (!User) return say('Invalid ID!');
@@ -187,7 +185,7 @@ if (message.startsWith(config.prefix)) {
 		if (User.ban && (User.ban.permanent || User.ban.ends > Date.now())) {
                         say('This user was banned for ' + (User.ban.permanent ? "forever" : `${fun.fun.mstotime(User.ban.duration)} and ends in ${fun.fun.mstotime(User.ban.ends - Date.now())}`) + ` for \`${User.ban.reason.toString()}\`` + (User.ban.note ? `, Note: \`${User.ban.note.toString()}\`` : ""));
                 }
-	} else if (cmd === "js" && user.rank >= 4) {
+	} else if (cmd === "js" && user.rank >= 6) {
 		try {
 			var result = await eval(argss);
 			if (typeof result === "function") return say("✅=> " + JSON.stringify(result.toString()))
@@ -195,7 +193,7 @@ if (message.startsWith(config.prefix)) {
 		} catch (error) {
 			return say("❎=>" + error.toString())
 		}
-	} else if (cmd === "perms" && user.rank >= 1) {
+	} else if (cmd === "perms" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}perms <add, remove, get> <ID> <options>`);
 		if (["get", "remove", "add"].includes(args[0])) {
 			var User = await db.users.get(args[1]);
@@ -252,7 +250,7 @@ if (message.startsWith(config.prefix)) {
 		User.p.tag = newtag;
 		await db.users.put(args[1], User);
 		return say('Successfully Updated Tag.')
-	} else if (cmd === "announce" && (user.rank >= 3 || user.r.includes('announce'))) {
+	} else if (cmd === "announce" && (user.rank >= 5 || user.r.includes('announce'))) {
 		if (args.length == 0) return say(`Usage ${config.prefix}announce <room, global> <text, html> <duration> <target, none> <data>`);
 		var notif = {m: "notification", title: "Notice"};
 		if (config.announceIds) notif.id = ws._id
@@ -268,7 +266,7 @@ if (message.startsWith(config.prefix)) {
 		var con = connections.filter(a => a.connected)
 		if (args[0] === "room") var con = con.filter(a => a.channel === ws.channel);
 		fun.fun.ws(con, notif);
-	} else if (cmd === "token" && user.rank >= 3) {
+	} else if (cmd === "token" && user.rank >= 6) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}token <get, reset> <ID>`);
 		if (!['get', 'reset'].includes(args[0])) return say('Invalid Arguments.');
 		var User = await db.users.get(args[1]);
@@ -289,9 +287,9 @@ if (message.startsWith(config.prefix)) {
 		if (!User) return say('Invalid ID.');
 		if (User.rank >= user.rank) return say('This person has a rank too high compared to yours.');
 		connections.filter(a => a.connected && a._id === User.p._id).forEach(a => a.close())
-	} else if (cmd === "stats") {
-		say(`${fun.fun.mem(process.memoryUsage.rss())} |${(config.tick ? (' ' + tick.get() + ' TPS |') : '')} ${connections.length} connections`);
-	} else say('This command doesn\'t exist.');
+	} else if (cmd === "meow" && user.rank >= 2) {
+		say(`meow`);
+	}
 	return;
 }
 var chat = await db.chat.get(ws.channel) || [];
