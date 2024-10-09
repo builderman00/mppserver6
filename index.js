@@ -1,4 +1,5 @@
 globalThis.fs = require('fs')
+const db = require("smn-db")("db.json");
 globalThis.config = require('./config.json');
 if (!config.uws) {
     const express = require('express');
