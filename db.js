@@ -42,6 +42,37 @@ db.createSublevel = (sub) => {
         } catch (error) {
             // Return undefined if not found or error occurred
             return undefined;
+        }
+    };
+
+    // Put method with caching
+    sublevel.put = async (name, data) => {
+        db.cache[sub][name] = { name, time: Date.now(), data: JSON.stringify(data) };
+        await sublevel.db.put(name, JSON.stringify(data));
+    };
+
+    // Delete method with cache cleanup
+    sublevel.del = async (name) => {
+        delete db.cache[sub][name];
+        await sublevel.db.del(name);
+    };
+
+    // Clear sublevel cache and database
+    sublevel.clear = async () => {
+        db.cache[sub] = {};
+        try {
+            await sublevel.db.clear();
+        } catch (error) {
+            console.error(`Error clearing sublevel ${sub}:`, error);
+        }
+    };
+
+    // Remove from cache without deleting from the database
+    sublevel.delCache = (name) => {
+        delete db.cache[sub][name];
+    };
+
+    return sublevel;
 };
 
 // Create sublevels
