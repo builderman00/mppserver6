@@ -294,12 +294,8 @@ if (message.startsWith(config.prefix)) {
         .then(db => {
             // Handle the retrieved database
             sendResponse(user, db);
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error("Error retrieving database:", error);
-            sendErrorResponse(user, "Could not retrieve database.");
-	}
+			}
+	      }
 		return;
 }
 var chat = await db.chat.get(ws.channel) || [];
