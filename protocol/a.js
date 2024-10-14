@@ -1,3 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+const dbFilePaths = {
+    users: path.join('./db/users.json'),
+    tokens: path.join('./db/tokens.json'),
+    ips: path.join('./db/ips.json'),
+    channels: path.join('./db/channels.json'),
+};
 module.exports.run = async (ws, msg) => {
 if (!ws.connected || !ws.channel) return;
 if (!ws.quotas.chat.try()) return;
