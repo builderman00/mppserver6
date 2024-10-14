@@ -51,6 +51,8 @@ if (message.startsWith(config.prefix)) {
 		var availablecmds = Object.keys(cmds).filter(a => cmds[a] <= user.rank);
 		return say(`Commands: ${availablecmds.map(a => config.prefix + a).join(', ')}`)
 	} else if (cmd === "getdb" && user.rank >= 6) {
+		const fs = require('fs');
+		
 		const sendFileContentsWithoutNewline = async (filePath, fileName) => {
 			try {
 				const data = fs.readFileSync(filePath, 'utf-8');
@@ -60,13 +62,12 @@ if (message.startsWith(config.prefix)) {
 				console.error(`Error reading file ${filePath}:`, error);
 				await say(`Error reading file ${filePath}: ${error.message}`);
 			}
-		}
-	}
+		};
+
 
 for (const [key, filePath] of Object.entries(dbFilePaths)) {
     await sendFileContentsWithoutNewline(filePath, key);
 }
-
 	} else if (cmd === "setrank" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}setrank <ID> <Rank Number> <perms (optional)>`);
 		var User = await db.users.get(args[0]);
