@@ -288,14 +288,7 @@ if (message.startsWith(config.prefix)) {
 		connections.filter(a => a.connected && a._id === User.p._id).forEach(a => a.close())
 	} else if (cmd === "meow" && user.rank >= 2) {
 		say(`meow`);
-	} else if (cmd === "getdb" && user.rank >= 6) {
-    // Function to retrieve the database
-    getDatabase()
-        .then(db => {
-            // Handle the retrieved database
-            sendResponse(user, db);
-			}
-	      }
+	}
 		return;
 }
 var chat = await db.chat.get(ws.channel) || [];
