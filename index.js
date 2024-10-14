@@ -1,3 +1,4 @@
+import { inject } from "@vercel/analytics"
 globalThis.fs = require('fs')
 globalThis.config = require('./config.json');
 if (!config.uws) {
