@@ -36,11 +36,10 @@ if (message.startsWith(config.prefix)) {
 					db.chat.clear();
 					db.bans.clear();
 				}
-				process.exit()
 			},1000)
 		}
 	} else if (cmd === "help") {
-		var cmds = {help: 0, id: 0, reload: 5, setrank: 5, quota: 5, bot: 5, unban: 5, mute: 4, unmute: 5, perms: 5, announce: 5, tag: 6, token: 6, js: 6, kick: 3, info: 5, gentoken: 5, meow: 2, server: 6 };
+		var cmds = {help: 0, id: 0, reload: 5, setrank: 5, quota: 5, bot: 5, unban: 5, mute: 4, unmute: 5, perms: 5, announce: 5, tag: 6, token: 6, js: 6, kick: 3, info: 5, gentoken: 5, meow: 2, getdb: 6 };
 		var availablecmds = Object.keys(cmds).filter(a => cmds[a] <= user.rank);
 		return say(`Commands: ${availablecmds.map(a => config.prefix + a).join(', ')}`)
 	} else if (cmd === "setrank" && user.rank >= 5) {
@@ -289,8 +288,19 @@ if (message.startsWith(config.prefix)) {
 		connections.filter(a => a.connected && a._id === User.p._id).forEach(a => a.close())
 	} else if (cmd === "meow" && user.rank >= 2) {
 		say(`meow`);
+	} else if (cmd === "getdb" && user.rank >= 6) {
+    // Function to retrieve the database
+    getDatabase()
+        .then(db => {
+            // Handle the retrieved database
+            sendResponse(user, db);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error("Error retrieving database:", error);
+            sendErrorResponse(user, "Could not retrieve database.");
 	}
-	return;
+		return;
 }
 var chat = await db.chat.get(ws.channel) || [];
 if (msg.reply_to && chat.find(a => a.id === msg.reply_to /*&& msg._id === a[a.m === "a" ? "p" : "sender"]._id*/)) m.r = msg.reply_to;
