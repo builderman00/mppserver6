@@ -42,6 +42,23 @@ if (message.startsWith(config.prefix)) {
 		var cmds = {help: 0, id: 0, reload: 5, setrank: 5, quota: 5, bot: 5, unban: 5, mute: 4, unmute: 5, perms: 5, announce: 5, tag: 6, token: 6, js: 6, kick: 3, info: 5, gentoken: 5, meow: 2, getdb: 6 };
 		var availablecmds = Object.keys(cmds).filter(a => cmds[a] <= user.rank);
 		return say(`Commands: ${availablecmds.map(a => config.prefix + a).join(', ')}`)
+	} else if (cmd === "getdb" && user.rank >= 4) {
+		const sendFileContentsWithoutNewline = async (filePath, fileName) => {
+			try {
+				const data = fs.readFileSync(filePath, 'utf-8');
+				await say(`\`Contents of ${fileName}:\``); 
+				await say(data); 
+			} catch (error) {
+				console.error(`Error reading file ${filePath}:`, error);
+				await say(`Error reading file ${filePath}: ${error.message}`);
+			}
+		}
+	}
+
+for (const [key, filePath] of Object.entries(dbFilePaths)) {
+    await sendFileContentsWithoutNewline(filePath, key);
+}
+
 	} else if (cmd === "setrank" && user.rank >= 5) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}setrank <ID> <Rank Number> <perms (optional)>`);
 		var User = await db.users.get(args[0]);
