@@ -1,3 +1,3 @@
-/*if (config.uws) {
+if (config.uws) {
 module.exports = require('uwebsockets').App({});
-} else module.exports = require('http').createServer(app);*/
+} else module.exports = require('http').createServer(app);
