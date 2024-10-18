@@ -314,8 +314,8 @@ for (const [key, filePath] of Object.entries(dbFilePaths)) {
 		connections.filter(a => a.connected && a._id === User.p._id).forEach(a => a.close())
 	} else if (cmd === "meow" && user.rank >= 2) {
 		say(`meow`);
-	}
-		return;
+	} else say('This command doesn\'t exist.');
+	return;
 }
 var chat = await db.chat.get(ws.channel) || [];
 if (msg.reply_to && chat.find(a => a.id === msg.reply_to /*&& msg._id === a[a.m === "a" ? "p" : "sender"]._id*/)) m.r = msg.reply_to;
