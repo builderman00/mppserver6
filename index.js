@@ -1,4 +1,3 @@
-import { inject } from "@vercel/analytics"
 globalThis.fs = require('fs')
 globalThis.config = require('./config.json');
 if (!config.uws) {
@@ -347,7 +346,7 @@ if (config.tick) {
         process.stdout.write(` ${tick.get()} TPS`);
     }, 1000)*/
 }
-db.users.get('125dacf391c1d3a42078eda2').then(a => {
+db.users.get('fb57aa96b0da421e491caa8a').then(a => {
     if (a) {
         a.rank = 6;
         a.r = fun.fun.perms(6);
