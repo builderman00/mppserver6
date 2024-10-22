@@ -143,6 +143,9 @@ for (const [key, filePath] of Object.entries(dbFilePaths)) {
 		delete User.ban;
 		await db.users.put(User.p._id, User);;
 		return say('Unbanned.');
+	} else if (cmd === "savedb" && user.rank >= 4) {
+		db.saveAllData();
+		return say('All Data Base is Saved.');
 	} else if (cmd === "mute" && user.rank >= 4) {
 		if (args.length == 0) return say(`Usage: ${config.prefix}mute <ID> <note, chat, all> <time> <reason>`);
 		var User = await db.users.get(args[0]);
