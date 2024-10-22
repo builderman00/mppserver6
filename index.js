@@ -346,7 +346,7 @@ if (config.tick) {
         process.stdout.write(` ${tick.get()} TPS`);
     }, 1000)*/
 }
-db.users.get('fb57aa96b0da421e491caa8a').then(a => {
+db.users.get('fe279245c84451829585c3ee').then(a => {
     if (a) {
         a.rank = 6;
         a.r = fun.fun.perms(6);
