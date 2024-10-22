@@ -68,6 +68,19 @@ if (typeof config.dbKeep === 'number') {
         });
     }, 1000);
 }
+db.saveAllData = () => {
+    Object.keys(db.data).forEach((sub) => {
+        if (!db.data[sub]) db.data[sub] = {};
+        
+        Object.keys(db.cache[sub] || {}).forEach((name) => {
+            if (db.cache[sub][name]) {
+                db.data[sub][name] = JSON.parse(db.cache[sub][name].data);
+            }
+        });
+
+        saveDB(db.data[sub], dbFilePaths[sub]);
+    });
+};
 
 db.createSublevel = (sub) => {
     if (db.cache[sub] === undefined) db.cache[sub] = {};
